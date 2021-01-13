@@ -1,8 +1,5 @@
-import styled from "styled-components/macro";
-import { useEffect, useState } from "react";
-
 function Dashboard() {
-  return <h1>Hallo</h1>;
+  return <h1>Quiz-App</h1>;
 }
 
 export default Dashboard;
