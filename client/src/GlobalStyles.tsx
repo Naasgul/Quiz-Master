@@ -1,7 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-import OxygenRegular from "./assets/fonts/Oxygen-Regular.ttf";
-
 const GlobalStyles = createGlobalStyle`
 *,*::before,*::after{
   box-sizing:border-box;
@@ -23,11 +21,7 @@ const GlobalStyles = createGlobalStyle`
   
 
     html {
-      @font-face {
-        font-family: "OxygenRegular";
-        src: url(${OxygenRegular}) format("woff2");
-        src: url(${OxygenRegular}) format("truetype");
-              } 
+   
       font-family:"OxygenRegular", sans-serif;
       color: var(--basic-color);  
     }
