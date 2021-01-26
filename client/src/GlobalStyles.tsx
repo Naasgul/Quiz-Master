@@ -1,9 +1,19 @@
 import { createGlobalStyle } from "styled-components";
+import Roboto from "./fonts/Roboto-Regular.ttf";
 
 const GlobalStyles = createGlobalStyle`
 *,*::before,*::after{
   box-sizing:border-box;
   }
+
+  @font-face {
+        font-family: 'Roboto';
+        src: local('Roboto'), local('Roboto'),
+        url(${Roboto}) format('ttf');
+       
+        font-weight: 300;
+        font-style: normal;
+    }
   
   :root{
     --background-primary: #FFF4F2;
@@ -14,6 +24,8 @@ const GlobalStyles = createGlobalStyle`
 
 html {
   height:100%;
+  font-family: "Roboto"
+
 }
   
 
@@ -24,16 +36,12 @@ html {
       margin:0;
       height:100%;
       overflow:hidden;
-      background-image: linear-gradient(
-    to right top,
-    #051937,
-    #004d7a,
-    #008793,
-    #00bf72,
-    #a8eb12
-  );
-  background-repeat:no-repeat;
-  background-size:cover;
+      background: #70e1f5;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ffd194, #70e1f5);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ffd194, #70e1f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      background-repeat:no-repeat;
+      background-size:cover;
     }
     
 
