@@ -1,31 +1,26 @@
-import styled from "styled-components";
-import React, { FC, ReactElement } from "react";
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-rows: auto 1fr 1fr;
-  grid-template-columns: 50% 50%;
-  border: 1px solid black;
-
-  p {
-    grid-column: 1 / span 2;
-    justify-self: center;
-  }
-  div {
-    justify-self: center;
-    align-self: center;
-  }
-`;
+import React, {
+  FC,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { Wrapper, ButtonWrapper } from "./QuizCard.styled";
+import { AnswerObject } from "../pages/Dashboard";
+import { shuffleArray } from "../utils";
+import { UserContext } from "../context/UserContext";
 
 type Props = {
   question: string;
   questionNumber: number;
   totalQuestions: number;
   answers: string[];
-  userAnswer: any;
-  callback: any;
-  correct: string;
+  userAnswer: AnswerObject | undefined;
+  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  incorrectAnswers: string[];
+  correctAnswer: string;
   nextQuestion: any;
+  number: number;
 };
 
 const QuizCard: React.FC<Props> = ({
@@ -33,17 +28,42 @@ const QuizCard: React.FC<Props> = ({
   questionNumber,
   totalQuestions,
   answers,
+  incorrectAnswers,
+  correctAnswer,
+  number,
   userAnswer,
   callback,
   nextQuestion,
-  correct,
 }) => {
+  const [antworten, setAntworten] = useState(answers);
+  //@ts-ignore
+  const { fiftyUsed, setFiftyUsed } = useContext(UserContext);
+
+  useEffect(() => {
+    setAntworten(answers);
+  }, [answers]);
+
+  const fiftyfifty = () => {
+    const fiftyfifty = antworten.filter(
+      (antwort) => antwort !== incorrectAnswers[0]
+    );
+    const fiftyfifty2 = fiftyfifty.filter(
+      (antwort) => antwort !== incorrectAnswers[1]
+    );
+    setAntworten(fiftyfifty2);
+    setFiftyUsed(true);
+  };
+
   return (
     <Wrapper>
       <p dangerouslySetInnerHTML={{ __html: question }} />
 
-      {answers.map((answer) => (
-        <div key={answer}>
+      {antworten.map((answer) => (
+        <ButtonWrapper
+          key={answer}
+          correct={userAnswer?.correctAnswer === answer}
+          userClicked={userAnswer?.answer === answer}
+        >
           <button
             disabled={userAnswer ? true : false}
             value={answer}
@@ -51,9 +71,16 @@ const QuizCard: React.FC<Props> = ({
           >
             <span dangerouslySetInnerHTML={{ __html: answer }} />
           </button>
-        </div>
+          {/*@ts-ignore*/}
+        </ButtonWrapper>
       ))}
-      <button onClick={nextQuestion}>Next Question</button>
+      {!userAnswer && !fiftyUsed ? (
+        <button onClick={fiftyfifty}>50/50</button>
+      ) : null}
+
+      {userAnswer && number + 1 !== totalQuestions ? (
+        <button onClick={nextQuestion}>Next Question</button>
+      ) : null}
     </Wrapper>
   );
 };

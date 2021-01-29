@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+export {};
 
 let client;
 let db;
